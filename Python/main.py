@@ -25,8 +25,12 @@ def sigmoid(Z_func):
 
 
 A = sigmoid(Z)
-print("index 0 is:", A[0][0])
+print("A matrix is:", A)
 print(np.shape(A))
+print("hi")
+
+dZ = A - Y
+print("dZ is",dZ)
 
 
 # def data_collect():
@@ -44,6 +48,4 @@ print(np.shape(A))
 #     X = np.matrix(df[:8000]).T
 #     Z = np.dot(W.T, X) + B
 
-def sigmoid(Z_func):
-    A = 1 / (1 + np.exp(Z_func))
-    return A
+
