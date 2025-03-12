@@ -1,0 +1,22 @@
+.center-container {
+    width: 70%;
+    max-width: 600px;
+    min-height: 100dvh;
+}
+
+.white-opaciity-box {   
+    max-width: 700px;
+    min-width: 700px;
+    max-height: 600px;
+    min-height: 600px;
+    background-color: black;
+    opacity: 0.4;
+    border-radius: 20px;
+    text-align: center;
+    padding-top: 50%;
+    margin-top: 25%;
+}
+
+h3, input {
+    color: white;
+}
