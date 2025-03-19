@@ -32,31 +32,3 @@ def logisticRegression(data):
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# @app.after_request
-# def after_request(response):
-#   response.headers.set('Access-Control-Allow-Origin', '*')
-#   response.headers.set('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-#   response.headers.set('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-#   return response 
