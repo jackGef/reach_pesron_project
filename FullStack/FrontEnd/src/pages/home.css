@@ -1,26 +1,22 @@
 .center-container {
     width: 65%;
-    min-height: 100dvh;
+}
+
+.main-container {
+    max-width: 700px;
+    margin:0 auto;
 }
 
 .white-opaciity-box {   
-    max-width: 700px;
-    min-width: 700px;
-    max-height: 100px;
-    min-height: 100px;
     background-color: black;
     opacity: 0.4;
     border-radius: 20px;
     text-align: center;
-    padding-top: 50%;
-    margin-top: 25%;
+    margin-top: 40px;
+    max-width: 700px;
+    min-height: 200px;
 }
 
 h3, input {
     color: white;
-}
-
-.just-check {
-    max-width: 700px;
-    margin: 0 auto;
 }

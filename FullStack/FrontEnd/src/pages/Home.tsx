@@ -4,22 +4,25 @@ import './home.css'
 import Header from '../components/Header';
 import Plot from 'react-plotly.js'
 
-const URL = 'http://localhost:5000'
+const URL = 'http://192.168.165.55:5000'
 
 const Home = () => {
   const [jsonData, setJsonData] = useState<String[] | null>(null)
   const [resData, setResData] = useState<AxiosResponse | null> (null)
 
   const fetchDataFromLogisticRegression = async () => {
-    await axios.post(URL + `/logisticRegression/${{jsonData}}`)
-    .then((response) => {
-      setResData(response.data)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-    
-  }
+
+    console.log("Sending JSON Data:", jsonData);
+  
+    try {
+      const response = await axios.post(URL + "/logisticRegression", jsonData, {
+        headers: { "Content-Type": "application/json" }
+      });
+      setResData(response.data);
+    } catch (error) {
+      console.error("Error sending data:", error);
+    }
+  };
 
   
   const convertCSVToJson = (csvData: any) => {
@@ -28,7 +31,7 @@ const Home = () => {
     const headers = lines[0].split(",")
     const result = []
 
-    for (let i = 1; i < lines.length; i++) {
+    for (let i: number = 1; i < lines.length; i++) {
       const obj: any = {}
       const currentLine: String[] = lines[i].split(",")
 
@@ -65,30 +68,25 @@ const Home = () => {
   return (
     <div>
       <Header/>
-      <div className='white-opaciity-box just-check'>
-        <input type="file" accept='.csv' onChange={handleChange}/>
-        <h3>{resData? JSON.stringify(resData) : 'Please enter CSV file'}</h3>
+      <div className='main-container'>
+        <div className='white-opaciity-box'>
+          <input type="file" accept='.csv' onChange={handleChange}/>
+          <h3>{resData? JSON.stringify(resData) : 'Please enter CSV file'}</h3>
+        </div>
+          <Plot
+            data={[
+              {
+                z: [[1, null, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, -10, 20]],
+                x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                y: ['Morning', 'Afternoon', 'Evening'],
+                type: 'heatmap',
+                hoverongaps: false
+              },
+            ]}
+
+            layout={ {width: 700, height: 620, paper_bgcolor: "rgb(0, 0, 0, 0.6)", title: {text: 'A Fancy Plot'}} }
+            />
       </div>
-        <Plot
-          data={[
-            {
-              z: [[1, null, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, -10, 20]],
-
-            x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-
-            y: ['Morning', 'Afternoon', 'Evening'],
-
-            type: 'heatmap',
-
-            hoverongaps: false
-            },
-            // {type: 'bar', x: [1, 2, 3], y: [2, 5, 3]},
-          ]}
-
-          layout={ {width: 700, height: 620, paper_bgcolor: "rgb(0, 0, 0, 0.6)", title: {text: 'A Fancy Plot'}} }
-          />
-
-
     </div>
   )
 }
