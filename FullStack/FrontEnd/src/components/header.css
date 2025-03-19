@@ -1,0 +1,28 @@
+header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    /* background-color: rgba(255, 255, 255, 0.3); */
+    min-height: 70px;
+    margin-bottom: 100px;
+    width: 100vw;
+
+    -webkit-box-shadow: 0px 7px 9px 0px rgba(0,0,0,0.28);
+    -moz-box-shadow: 0px 7px 9px 0px rgba(0,0,0,0.28);
+    box-shadow: 0px 7px 9px 0px rgba(0,0,0,0.28);
+
+    backdrop-filter: blur(100px);
+}
+
+nav {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.link-class {
+    color: black;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

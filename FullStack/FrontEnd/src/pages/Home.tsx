@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import axios, { AxiosResponse } from 'axios'
-import '../cssFiles/home.css'
-import { json } from 'express'
+import './home.css'
+import Header from '../components/Header';
+import Plot from 'react-plotly.js'
 
 const URL = 'http://localhost:5000'
 
@@ -62,11 +63,32 @@ const Home = () => {
   }, [jsonData])
 
   return (
-    <div className='center-container'>
-      <div className='white-opaciity-box'>
+    <div>
+      <Header/>
+      <div className='white-opaciity-box just-check'>
         <input type="file" accept='.csv' onChange={handleChange}/>
         <h3>{resData? JSON.stringify(resData) : 'Please enter CSV file'}</h3>
       </div>
+        <Plot
+          data={[
+            {
+              z: [[1, null, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, -10, 20]],
+
+            x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+
+            y: ['Morning', 'Afternoon', 'Evening'],
+
+            type: 'heatmap',
+
+            hoverongaps: false
+            },
+            // {type: 'bar', x: [1, 2, 3], y: [2, 5, 3]},
+          ]}
+
+          layout={ {width: 700, height: 620, paper_bgcolor: "rgb(0, 0, 0, 0.6)", title: {text: 'A Fancy Plot'}} }
+          />
+
+
     </div>
   )
 }
