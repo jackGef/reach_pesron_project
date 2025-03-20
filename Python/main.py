@@ -60,14 +60,59 @@ def update_paramaters(W, b, dW, dB):
 
 def main():
     X, Y = get_x_y()
-    W, b = initialize_parameters()
-    Z = linear_computation(X, W, b)
-    A = sigmoid(Z)
-    cost = loss(A, Y)
-    print(cost)
-    dW, dB = backward_propagation(X, A, Y)
-    print("dW shape ",dW.shape,"dB shape ",dB.shape)
-    W, b = update_paramaters(W, b, dW, dB)
+    X = X.T
+    X_80 = int((80 * (len(X) - 1)) / 100)
+    train_X_change, train_Y_change = X[1:X_80, :(len(X[1]) )], X[1:X_80, (len(X[1]) - 1):]
+    test_X_change, test_Y_change = X[X_80:, :(len(X[1]) )], X[X_80:, (len(X[1]) - 1):]
+    print(train_X_change.shape)
+    print(test_X_change.shape)
+
+    sum_of_cost = 0
+    batches_number = 40
+
+    batch_length = int(len(train_Y_change[1])/batches_number)
+
+    for epoch in range(100000):
+
+        sum_of_cost = 0
+
+        for batch_number in range(number_of_batches):
+            train_X = X_80[0:, (batch_number * batch_length):((batch_number + 1) * batch_length)]
+            train_Y = Y_80[(batch_number * batch_length):((batch_number + 1) * batch_length), 0:]
+
+            # Initilize parameters X and Y of train_data_obj
+            train_data_obj.initilize_X_Y(train_X, train_Y)
+
+            # Initlize the parameters W and m(number of examples) of train_data_obj
+            parameters = train_data_obj.initilize_parameters(train_X)
+
+            # A for loop to train the the model n times
+
+            # Calculate the Z matrice for the sigmoid function
+            Z = train_data_obj.linear_computation(train_X)
+
+            # Calculate the activation function sigmoid
+            A = train_data_obj.sigmoid(Z)
+
+            # Calculate the cost of the activation function
+            cost = train_data_obj.cost(A, train_Y)
+
+            sum_of_cost += cost[0][0]
+
+            # Print cost and number of itiration every n times
+
+            # Calculate the grads to update parameters W and b
+            grads = train_data_obj.backward_propagation(A, train_Y)
+
+            # Update parameters W and b
+            train_data_obj.update_parameters(grads, learning_rate=0.001)
+
+        if epoch % 10000 == 0:
+            print(f"epoch number: {epoch}")
+            print(sum_of_cost / number_of_batches)
+
+        cost_axis_y.append(sum_of_cost / number_of_batches)
+        cost_axis_x.append(epoch)
 
 
 main()
