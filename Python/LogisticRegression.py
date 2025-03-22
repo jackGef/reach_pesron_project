@@ -33,5 +33,5 @@ class LogisticRegression:
         return y_predicted_cls
 
     def _sigmoid(self, x):
-        x = np.clip(x, -500, 500)  # Prevent overflow
+        x = np.clip(x, -500, 500)
         return 1 / (1 + np.exp(-x))
