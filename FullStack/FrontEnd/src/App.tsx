@@ -13,8 +13,8 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home/>}/>
-          <Route path="/ai/logisticRegression" element={<LinearRegression/>}/>
-          <Route path="/ai/linearRegression" element={<LogisticRegerssion/>}/>
+          <Route path="/ai/linearRegression" element={<LinearRegression/>}/>
+          <Route path="/ai/logisticRegression" element={<LogisticRegerssion/>}/>
         </Routes>
       </BrowserRouter>
       {/* <Header/> */}
