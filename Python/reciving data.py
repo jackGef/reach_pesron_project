@@ -1,3 +1,4 @@
+from Python import LogisticRegressionImplement
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask import request
@@ -50,8 +51,17 @@ def logisticRegression():
             with open("data.json","w") as file:
                 json.dump(data, file)
 
-            #print(data)
-            return jsonify({"Success": "Received data", "data": data})
+            accuracy, Y_true_positive, Y_true_negative, Y_false_positive, Y_false_negative, loss = LogisticRegressionImplement.get_values()
+
+            return jsonify({"Accuracy": accuracy,
+                            "Y_predictions": {
+                                "Y_true_positive": Y_true_positive,
+                                "Y_true_negative": Y_true_negative,
+                                "Y_false_positive": Y_false_positive,
+                                "Y_false_negative": Y_false_negative
+                            },
+                            "loss": loss
+                            })
         except Exception as e:
             return jsonify({"Error": str(e)})
 
