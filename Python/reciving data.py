@@ -3,8 +3,6 @@ from flask_cors import CORS
 from flask import request
 import json
 
-
-
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
 
@@ -17,26 +15,6 @@ def after_request(response):
     return response
 
 
-@app.route("/api/users", methods=["GET"])
-def users():
-    return jsonify(
-        {
-            "users": [
-                "jackob",
-                "Matan",
-                "Logistic regression"
-            ]
-        }
-    )
-
-
-@app.route("/api/users/jack/<usr>", methods=["GET", "POST"])
-def user(usr):
-    if usr:
-        return "Accepted"
-    return {"hi": "bye"}
-
-
 @app.route("/logisticRegression", methods=["POST"])
 def logisticRegression():
     data = request.json  # This is likely a list
@@ -47,10 +25,10 @@ def logisticRegression():
             # csvRaisin = df.to_csv(index=False)  # Convert DataFrame to CSV
             # print(csvRaisin)
             # print(type(csvRaisin))
-            with open("data.json","w") as file:
+            with open("data.json", "w") as file:
                 json.dump(data, file)
 
-            #print(data)
+            # print(data)
             return jsonify({"Success": "Received data", "data": data})
         except Exception as e:
             return jsonify({"Error": str(e)})
@@ -58,8 +36,5 @@ def logisticRegression():
     return jsonify({"Error": "Failed"})
 
 
-
 if __name__ == "__main__":
     app.run(debug=True, host='192.168.165.55', port=5000)
-
-

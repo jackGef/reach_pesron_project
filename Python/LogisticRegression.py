@@ -29,8 +29,8 @@ class LogisticRegression:
     def predict(self, X):
         linear_module = np.dot(X, self.weights) + self.bias
         y_predicted = self._sigmoid(linear_module)
-        y_predicted_cls = [1 if i > 0.5 else 0 for i in y_predicted]
-        return y_predicted_cls
+        y_predicted_precent = [1 if i > 0.5 else 0 for i in y_predicted]
+        return y_predicted_precent
 
     def _sigmoid(self, x):
         x = np.clip(x, -500, 500)
