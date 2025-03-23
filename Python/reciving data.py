@@ -1,3 +1,4 @@
+from Python import LogisticRegressionImplement
 from flask import Flask, jsonify
 from flask_cors import CORS
 from flask import request
@@ -15,6 +16,26 @@ def after_request(response):
     return response
 
 
+@app.route("/api/users", methods=["GET"])
+def users():
+    return jsonify(
+        {
+            "users": [
+                "jackob",
+                "Matan",
+                "Logistic regression"
+            ]
+        }
+    )
+
+
+@app.route("/api/users/jack/<usr>", methods=["GET", "POST"])
+def user(usr):
+    if usr:
+        return "Accepted"
+    return {"hi": "bye"}
+
+
 @app.route("/logisticRegression", methods=["POST"])
 def logisticRegression():
     data = request.json  # This is likely a list
@@ -28,8 +49,17 @@ def logisticRegression():
             with open("data.json", "w") as file:
                 json.dump(data, file)
 
-            # print(data)
-            return jsonify({"Success": "Received data", "data": data})
+            accuracy, Y_true_positive, Y_true_negative, Y_false_positive, Y_false_negative, loss = LogisticRegressionImplement.get_values()
+
+            return jsonify({"Accuracy": accuracy,
+                            "Y_predictions": {
+                                "Y_true_positive": Y_true_positive,
+                                "Y_true_negative": Y_true_negative,
+                                "Y_false_positive": Y_false_positive,
+                                "Y_false_negative": Y_false_negative
+                            },
+                            "loss": loss
+                            })
         except Exception as e:
             return jsonify({"Error": str(e)})
 
@@ -37,4 +67,4 @@ def logisticRegression():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host='192.168.165.55', port=5000)
+    app.run(debug=True, host='192.168.111.79', port=5000)
