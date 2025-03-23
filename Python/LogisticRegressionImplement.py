@@ -20,6 +20,7 @@ X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
 
+
 def accuracy(y_true, y_pred):
     return np.sum(y_true == y_pred) / len(y_true)
 
