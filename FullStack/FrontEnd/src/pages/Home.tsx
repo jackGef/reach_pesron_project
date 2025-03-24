@@ -4,11 +4,23 @@ import './home.css'
 import Header from '../components/Header';
 import Plot from 'react-plotly.js'
 
-const URL = 'http://192.168.165.55:5000'
+const URL = 'http://192.168.111.79:5000'
 
 const Home = () => {
+
   const [jsonData, setJsonData] = useState<String[] | null>(null)
-  const [resData, setResData] = useState<AxiosResponse | null> (null)
+  const [resData, setResData] = useState<resStructure | null> (null)
+
+  interface resStructure {
+    Accuracy: number;
+    Y_predictions: {
+      Y_true_positive: number,
+      Y_true_negative: number,
+      Y_false_positive: number,
+      Y_false_negative: number,
+    },
+    loss: number[]
+  }
 
   const fetchDataFromLogisticRegression = async () => {
 
@@ -19,13 +31,17 @@ const Home = () => {
         headers: { "Content-Type": "application/json" }
       });
       setResData(response.data);
+      console.log(resData);
+      // console.log(response.data);
+      
+      
     } catch (error) {
       console.error("Error sending data:", error);
     }
   };
 
   
-  const convertCSVToJson = (csvData: any) => {
+  const convertCSVToJson = (csvData: string) => {
     const lines: String[] = csvData.split("\n")
 
     const headers = lines[0].split(",")
@@ -53,7 +69,7 @@ const Home = () => {
       reader.onload = (e) => {
         const csvData = e.target?.result
 
-        const jsonRes = convertCSVToJson(csvData)
+        const jsonRes = convertCSVToJson(csvData as string)
         setJsonData(jsonRes)        
       }
 
@@ -71,21 +87,28 @@ const Home = () => {
       <div className='main-container'>
         <div className='white-opaciity-box'>
           <input type="file" accept='.csv' onChange={handleChange}/>
-          <h3>{resData? JSON.stringify(resData) : 'Please enter CSV file'}</h3>
-        </div>
           <Plot
             data={[
               {
-                z: [[1, null, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, -10, 20]],
-                x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-                y: ['Morning', 'Afternoon', 'Evening'],
+                z: [[
+                  resData?.Y_predictions?.Y_true_positive ?? 0, 
+                  resData?.Y_predictions?.Y_true_negative ?? 0
+                ],
+                [
+                  resData?.Y_predictions?.Y_false_negative ?? 0,
+                  resData?.Y_predictions?.Y_false_positive ?? 0
+                ]],
+                x: ['Positive', 'Negative'],
+                y: ['True', 'False'],
                 type: 'heatmap',
                 hoverongaps: false
               },
             ]}
-
+            
             layout={ {width: 700, height: 620, paper_bgcolor: "rgb(0, 0, 0, 0.6)", title: {text: 'A Fancy Plot'}} }
             />
+        </div>
+          {resData===null? "Please enter something": JSON.stringify(resData.Accuracy)}
       </div>
     </div>
   )
